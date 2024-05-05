@@ -22,6 +22,7 @@ class DbBlogPost extends ObjectModel
     public $meta_description;
     public $date_add;
     public $date_upd;
+    public $date_publish; // Fecha de publicación
 
     public static $definition = array(
         'table' => 'dbblog_post',
@@ -38,6 +39,7 @@ class DbBlogPost extends ObjectModel
             'index' =>			        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'date_add' =>		        array('type' => self::TYPE_DATE),
             'date_upd' =>		        array('type' => self::TYPE_DATE),
+            'date_publish' =>		    array('type' => self::TYPE_DATE),
             
             // Lang fields
             'short_desc' =>	        array('type' => self::TYPE_HTML, 'lang' => true, 'required' => false , 'validate' => 'isCleanHtml', 'size' => 4000),
@@ -288,6 +290,7 @@ class DbBlogPost extends ObjectModel
         $post['views'] = (int)$result['views'] + 1;
         $post['date_add'] = date_format(date_create($result['date_add']), 'd/m/Y');
         $post['date_upd'] = date_format(date_create($result['date_upd']), 'd/m/Y');
+        $post['date_publish'] = date_format(date_create($result['date_publish']), 'd/m/Y');
         $post['date_add_json'] = $result['date_add'];
         $post['date_upd_json'] = $result['date_upd'];
         $post['title_category'] = $result['title_category'];

@@ -55,6 +55,7 @@ class AdminDbBlogRespondController extends ModuleAdminController
             $comment->rating = 0;
             $comment->moderator = 1;
             $comment->date_add = date('Y-m-d');
+            $comment->date_publish = Tools::getValue('date_publish');
             $comment->add();
 
             $redirect = $this->context->link->getAdminLink('AdminDbBlogComment', true, [], []);
@@ -128,6 +129,12 @@ class AdminDbBlogRespondController extends ModuleAdminController
                             )
                         ),
                     ),
+                    array(
+                        'type' => 'date',
+                        'label' => $this->l('Fecha de publicación'),
+                        'name' => 'date_publish',
+                        'required' => true
+                    ),
                 ),
                 'submit' => array(
                     'title' => $this->l('Save'),
@@ -143,6 +150,7 @@ class AdminDbBlogRespondController extends ModuleAdminController
             'id_dbaboutus_author' => '',
             'content' => '',
             'active' => 1,
+            'date_publish' => date('Y-m-d'),
         );
 
         $helper = new HelperForm();

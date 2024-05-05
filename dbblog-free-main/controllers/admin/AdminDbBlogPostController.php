@@ -318,6 +318,13 @@ class AdminDbBlogPostController extends ModuleAdminController
                 ),
 
                 array(
+                    'type' => 'date',
+                    'label' => $this->l('Fecha de publicación'),
+                    'name' => 'date_publish',
+                    'required' => true,
+                ),
+
+                array(
                     'type' => 'switch',
                     'label' => $this->trans('Active', array(), 'Admin.Global'),
                     'name' => 'active',

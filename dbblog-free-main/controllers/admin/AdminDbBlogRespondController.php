@@ -133,7 +133,7 @@ class AdminDbBlogRespondController extends ModuleAdminController
                         'type' => 'date',
                         'label' => $this->l('Fecha de publicación'),
                         'name' => 'date_publish',
-                        'required' => true
+                        'required' => false,
                     ),
                 ),
                 'submit' => array(

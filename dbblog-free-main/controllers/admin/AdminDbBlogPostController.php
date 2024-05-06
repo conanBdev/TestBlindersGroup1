@@ -144,6 +144,8 @@ class AdminDbBlogPostController extends ModuleAdminController
 
     public function renderForm()
     {
+        // Anñadir JS al formulario
+        $this->addJS(_PS_MODULE_DIR_ . 'dbblog/views/js/formPost.js');
 
         $obj = $this->loadObject(true);
 
@@ -321,7 +323,7 @@ class AdminDbBlogPostController extends ModuleAdminController
                     'type' => 'date',
                     'label' => $this->l('Fecha de publicación'),
                     'name' => 'date_publish',
-                    'required' => true,
+                    'id' => 'publish_date',
                 ),
 
                 array(

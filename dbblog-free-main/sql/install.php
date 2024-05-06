@@ -22,6 +22,9 @@
  * @copyright Copyright (c) DevBlinders
  * @license   Commercial license
  */
+
+use PSpell\Config;
+
 $sql = array();
 
 $sql[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'dbblog_category` (
@@ -100,4 +103,29 @@ foreach ($sql as $query) {
     if (Db::getInstance()->execute($query) == false) {
         return false;
     }
+}
+
+/**
+ * Revisa la fecha de publicación de los posts y actualiza el campo active a 1 si la fecha de publicación es la actual.
+ */
+function updateActivePost(){
+    $db = Db::getInstance();
+    $currentDate = date('Y-m-d');
+
+    $stmt = $db->prepare("SELECT * FROM dbblog_post WHERE date_publish = :currentDate AND active = 0");
+    $stmt->execute(['currentDate' => $currentDate]);
+    $posts = $stmt->fetchAll();
+
+    foreach ($posts as $post) {
+        $updateStmt = $db->prepare("UPDATE dbblog_post SET active = 1 WHERE id = :id");
+        $updateStmt->execute(['id' => $post['id']]);
+    }
+}
+
+// Registra el hook para ejecutar la función updateActivePost
+registerHook('actionModuleRegister', 'updateActivePost');
+if (!Configuration::get('DBBLOG_CRON_REGISTERED')) {
+    $miModulo = Module::getInstanceByName('dbblog');
+    timer_addToCronTab($miModulo->name, 'updateActivePost', '0 0 * * *', 'update active posts every day at midnight');
+    Configuration::updateValue('DBBLOG_INSTALLED', 1);
 }
